@@ -1,9 +1,9 @@
 <header class="header">
     <div class="mob-menu-btn">
-        <img src="img/menu.png" alt="">
+        <img src="{{ asset('img/menu.png') }}" alt="">
     </div>
     <div class="close-btn">
-        <img src="img/close.png" alt="">
+        <img src="{{ asset('img/close.png') }}" alt="">
     </div>
     <div class="container-fluid">
         <div class="row align-items-center">

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\UserController;
 
 // Guest routes for login and registration
 Route::group(['middleware' => 'guest'], function () {
@@ -24,4 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Dashboard route
     Route::get('/dashboard', fn() => view('dashboard.dashboard'))->name('dashboard');
+
+    // User management routes
+    Route::get('/dashboard/users', [UserController::class, 'index'])->name('dashboard.users');
 });
