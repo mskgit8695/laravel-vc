@@ -1,0 +1,423 @@
+@media all and (max-width: 1950px) {
+  .login-form {
+    padding: 1.5rem 2.5rem;
+    width: 550px;
+  }
+
+  .v-logo img {
+    max-width: 82%;
+  }
+
+  .custom-field {
+    margin: 1.85rem auto;
+  }
+
+  .foot-four .carousel-item {
+    color: #fff;
+    padding: 0.5rem 0 1.85rem 0rem;
+    font-size: 1rem;
+  }
+
+  .captcha>ul>li>a {
+    font-size: 1rem;
+  }
+
+  .login-form::before {
+    right: -34rem;
+  }
+
+  .right-shape {
+    padding-left: 2rem;
+  }
+
+  .left-shape {
+    text-align: right;
+  }
+
+  footer.footer {
+    position: relative;
+  }
+  footer.stickyFooter{
+    position: relative;
+  }
+
+  /* OTP Page CSS */
+  .login-form.otp-form {
+    padding: 2.5rem 2.5rem;
+  }
+
+  .footNote::after {
+    height: 158px;
+  }
+
+  .footNote {
+    padding: 2.5rem 1.5rem 1rem 1.5rem;
+    position: relative;
+  }
+
+  .copyright ul {
+    width: 60%;
+
+  }
+
+  /*Dashboard CSS*/
+  section.right-section {
+    width: 81.50%;
+  }
+}
+
+@media all and (max-width: 1700px) {
+
+  /*Dashboard Page CSS*/
+  .login-box {
+    height: 92vh;
+  }
+
+  .icon {
+    width: 65px;
+    height: 65px;
+    padding: 1.15rem;
+  }
+
+  .tile {
+    padding: 1.85rem 1rem;
+  }
+
+  .info h4 {
+    font-size: 1.85rem;
+    font-weight: 600;
+  }
+
+  .info h6 {
+    font-size: 1rem;
+
+  }
+
+  nav.menu ul>li>a {
+    padding: 1rem 1rem;
+    display: block;
+    font-size: 1rem;
+  }
+
+  nav.menu {
+    width: 275px;
+  }
+
+  section.custom-tabs .nav-pills .nav-link {
+    font-size: 1.1rem;
+    padding: 0.85rem 1.5rem;
+  }
+
+
+
+}
+
+@media all and (max-width: 1500px) {
+  nav.menu {
+    width: 240px;
+  }
+
+  .dateCalender-tabs ul.calender-fields {
+    width: 40%;
+  }
+
+  section.custom-tabs table.table.dataTable {
+    font-size: 0.85rem;
+  }
+
+  section.custom-tabs .nav-pills .nav-link {
+    font-size: 1rem;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    padding: 0.85rem;
+  }
+
+  .tile {
+    padding: 1rem 1rem;
+  }
+
+  .left-shape img {
+    max-width: 62%;
+    
+  }
+
+  .login-form {
+    padding: 1.5rem;
+   
+  }
+
+  .form {
+    padding: 0 1.5rem;
+  }
+
+  .footNote ul > li {
+    font-size: 1rem;
+    list-style-type: none;
+  }
+
+  .info h6 {
+    font-size: 0.95rem;
+  }
+
+  .info h4 {
+    font-size: 1.5rem;
+  }
+
+  .dateCalender-tabs ul.calender-fields li {
+    width: 50%;
+  }
+}
+
+@media all and (max-width: 1400px) {
+
+  .login-form::before {
+    right: -28rem;
+  }
+
+  .captcha>ul>li:last-child {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+
+
+  nav.menu {
+    width: 230px;
+  }
+
+  section.right-section {
+    width: 80.50%;
+  }
+
+
+}
+
+@media all and (max-width: 1300px) {
+  nav.menu ul>li>a {
+    font-size: 0.85rem;
+  }
+
+  nav.menu {
+    width: 210px;
+  }
+}
+
+@media all and (max-width: 1150px) {
+
+  .v-logo {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .left-shape {
+    display: none;
+  }
+
+  .login-form {
+    padding: 1.5rem 0.5rem;
+
+  }
+
+  .form {
+    position: relative;
+    padding: 1rem 2rem;
+  }
+
+  .footNote {
+    background-color: #fff;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+  }
+
+  .footNote::after {
+    display: none;
+  }
+
+  footer.stickyFooter {
+    position: relative;
+    text-align: center;
+  }
+
+  .footNote h5 {
+    font-size: 1.1rem;
+  }
+
+  .footNote ul>li {
+    font-size: 0.95rem;
+  }
+}
+
+@media all and (max-width: 1085px) {
+  .header {
+    padding: 0.85rem 0 0.85rem 1rem;
+
+  }
+
+  .header .v-logo {
+    margin-left: 1.25rem;
+  }
+
+  .mob-menu-btn,
+  .close-btn {
+    position: absolute;
+    top: 1.15rem;
+    display: block;
+    cursor: pointer;
+  }
+
+  .close-btn {
+    display: none;
+  }
+
+  nav.menu {
+    width: 48%;
+  }
+
+  section.right-section {
+    width: 92%;
+    margin: 1.5rem auto;
+  }
+
+  .left-section {
+    position: fixed;
+    width: 100%;
+    left: -1500px;
+    z-index: 999;
+    transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+  }
+
+  .left-section::after {
+    position: absolute;
+    content: '';
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: block;
+  }
+
+  .tile {
+
+    margin-bottom: 1.15rem;
+  }
+
+  section.custom-tabs {
+    margin: auto
+  }
+
+  .dateCalender-tabs {
+    flex-direction: column-reverse;
+  }
+
+  .dateCalender-tabs ul.calender-fields {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .dateCalender-tabs ul.calender-fields li {
+    width: 100%;
+  }
+
+  .nav.nav-pills {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .left-section.moveLeft {
+    left: 0;
+  }
+
+  .menu-hnd-btn ul>li:nth-child(1),
+  .menu-hnd-btn ul>li:nth-child(2) {
+    display: none;
+  }
+}
+
+@media all and (max-width: 850px) {}
+
+@media all and (max-width: 768px) {}
+
+@media all and (max-width: 645px) {
+
+  .login-form,
+  .shape-box {
+    width: 100%;
+  }
+
+  .captcha>ul>li>a {
+    font-size: 0;
+  }
+
+  .custom-field>input,
+  .custom-field>select {
+    font-size: 0.85rem;
+  }
+
+  .form .custom-field {
+    margin: 1rem 1rem 1rem 0;
+  }
+
+  .form {
+
+    padding: 1rem;
+  }
+
+  .copyright ul {
+    width: 75%;
+  }
+
+  /*OTP Form CSS*/
+  .login-form.otp-form {
+    padding: 0.5rem;
+  }
+
+  .multi-fields input {
+    width: 45px;
+    height: 45px;
+    padding: 0.5rem;
+    margin: 0 0.35rem;
+    text-align: center;
+    color: #f48120;
+    font-size: 1rem;
+  }
+
+}
+
+@media all and (max-width: 550px) {
+  .v-logo img {
+    max-width: 98%;
+  }
+
+  .header .v-logo {
+    margin-left: 3.5rem;
+  }
+
+  .login-form h5 {
+    width: 98%;
+  }
+
+  .login-form.otp-form {
+    width: 92.50%;
+  }
+
+  .edit-otp ul {
+
+    font-size: 1rem;
+  }
+
+  .otp-exp ul>li {
+    font-size: 0.85rem;
+  }
+
+}
+
+@media all and (max-width: 515px) {}
+
+@media all and (max-width: 415px) {}
