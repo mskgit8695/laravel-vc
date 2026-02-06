@@ -28,4 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     // User management routes
     Route::get('/dashboard/users', [UserController::class, 'index'])->name('dashboard.users');
+    Route::get('/dashboard/users/new', [UserController::class, 'create'])->name('dashboard.users.new');
+    Route::post('/dashboard/users/store', [UserController::class, 'store'])->name('dashboard.users.store');
+    Route::get('/dashboard/users/edit/{id}', [UserController::class, 'edit'])->name('dashboard.users.edit');
+    Route::patch('/dashboard/users/update/{id}', [UserController::class, 'update'])->name('dashboard.users.update');
+    Route::delete('/dashboard/users/destroy/{id}', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
 });

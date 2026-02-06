@@ -26,8 +26,11 @@
                                 <a href="#" class="btn-link-orange"><span>&#10140;</span> Back</a>
                             </div>
                         </div>
-                        <section class="">
+                        <section>
                             <div class="card border-btm">
+                                @if (Session::has('success'))
+                                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                @endif
                                 <div class="card-header">
                                     <div class="title-icon">
                                         <span>
@@ -36,7 +39,7 @@
                                         {{ $title }}
                                     </div>
                                     <div class="add-btn">
-                                        <a href="add-user.html" class="btn btn-orange">
+                                        <a href="{{ route('dashboard.users.new') }}" class="btn btn-orange">
                                             <i><img src="{{ asset('img/plus-white.png') }}" alt="add user"></i>
                                             Add User
                                         </a>
@@ -69,8 +72,27 @@
                                                         <td>{{ $user->email }}</td>
                                                         <td>{{ $user->mobile_no }}</td>
                                                         <td>{{ get_user_role($user->role) }}</td>
-                                                        <td title="active">Active</td>
-                                                        <td><a href="">Edit</a></td>
+                                                        <td title="@if ($user->status !== 0) active @endif">
+                                                            @if ($user->status === 0)
+                                                                Inactive
+                                                            @else
+                                                                Active
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a
+                                                                href="{{ route('dashboard.users.edit', ['id' => $user->id]) }}">Edit</a>
+                                                            |
+                                                            <form
+                                                                action="{{ route('dashboard.users.destroy', ['id' => $user->id]) }}"
+                                                                method="POST" style="display:inline;"
+                                                                id="desform_{{ $index }}">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <a href="#"
+                                                                    onclick="getSubmitForm('desform_{{ $index }}')">Delete</a>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -89,4 +111,10 @@
     {{-- Footer --}}
     @include('layouts.footer')
     {{-- End Footer --}}
+
+    <script type="text/javascript">
+        function getSubmitForm(formName) {
+            document.getElementById(formName).submit();
+        }
+    </script>
 @endsection

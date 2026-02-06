@@ -28,3 +28,22 @@ if (!function_exists('get_user_role')) {
         return $user_role;
     }
 }
+
+/**
+ * Get Status list
+ */
+if (!function_exists('get_status_list')) {
+    /**
+     * Provide Status List
+     *
+     * @return array
+     */
+
+    function get_status_list()
+    {
+        return [
+            0 => 'Inactive',
+            1 => 'Active'
+        ];
+    }
+}
