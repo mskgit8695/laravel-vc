@@ -50,9 +50,13 @@ class UserController extends Controller
         }
 
         // Split fullname into first_name and last_name
+        $first_name = $request->input('fullname');
+        $last_name = '';
         $name_parts = explode(' ', $request->input('fullname'), 2);
-        $first_name = trim($name_parts[0]) ?? '';
-        $last_name = trim($name_parts[1]) ?? '';
+        if (is_array($name_parts) && sizeof($name_parts) > 1) {
+            $first_name = trim($name_parts[0]) ?? '';
+            $last_name = trim($name_parts[1]) ?? '';
+        }
 
         // Create the user
         User::create([
@@ -63,7 +67,8 @@ class UserController extends Controller
             'mobile_no' => $request->input('mobile_no'),
             'role' => $request->input('role'),
             'status' => $request->input('status'),
-            'password' => Hash::make(Str::lower($request->input('email')))
+            'password' => Hash::make(Str::lower($request->input('email'))),
+            'created_by' => Auth::user()->id
         ]);
 
         // Redirect to user page with success message
@@ -100,7 +105,7 @@ class UserController extends Controller
         // Handle add new user
         $validated = $request->validate([
             'fullname' => 'required|string|max:100',
-            'employee_id' => 'required|string|max:50|unique:users',
+            'employee_id' => 'required|string|max:50',
             'mobile_no' => 'required|integer|min:10|max_digits:10',
             'role' => 'required|in:1,2,3',
             'status' => 'required|in:0,1'
@@ -110,16 +115,18 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         // Update the first_name and last_name
-        if (!empty($validated['fullname'])) {
-            $name_parts = explode(' ', $validated['fullname'], 2);
+        $first_name = $validated['fullname'];
+        $last_name = '';
+        $name_parts = explode(' ', $validated['fullname'], 2);
+        if (is_array($name_parts) && sizeof($name_parts) > 1) {
             $first_name = trim($name_parts[0]) ?? '';
             $last_name = trim($name_parts[1]) ?? '';
-
-            $validated['first_name'] = $first_name;
-            $validated['last_name'] = $last_name;
         }
 
-        $user->update($validated);
+        $validated['first_name'] = $first_name;
+        $validated['last_name'] = $last_name;
+
+        $user->update([...$validated, 'updated_by' => Auth::user()->id]);
 
         // Redirect to users page with success message
         return redirect()->route('dashboard.users')->with('success', 'User has been updated successfully!');

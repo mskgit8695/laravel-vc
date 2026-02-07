@@ -9,11 +9,11 @@
                 <div class="shape-box">
                     <div class="login-wrap">
                         <div class="login-form">
-                            @if (Session::has('success'))
-                                <div class="alert alert-success">{{ Session::get('success') }}</div>
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
                             @endif
-                            @if (Session::has('error'))
-                                <div class="alert alert-danger">{{ Session::get('error') }}</div>
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
                             <div class="logo-v"></div>
                             <h5><b>Login to Verma Courier's Admin</b></h5>
@@ -41,9 +41,9 @@
                                     <button type="submit" class="btn btn-lg btn-orange w-100">Submit</button>
                                 </div>
 
-                                <p>
+                                {{-- <p>
                                     Don't have an account? <a href="{{ url('/register') }}">Register here</a>
-                                </p>
+                                </p> --}}
                             </form>
                         </div><!-- End of login-form Div -->
                     </div><!-- End of login-wrap Div -->

@@ -21,7 +21,7 @@ class Authenticate extends Controller
             'password' => 'required|string|min:8',
         ]));
 
-        return response()->json(['message' => 'Successfully registered', 'user' => $user], 201);
+        return response()->json(['message' => 'Successfully registered', 'user' => $user], 200);
     }
 
     public function login(Request $request)
@@ -35,7 +35,7 @@ class Authenticate extends Controller
         $user = User::where('email', $feilds['email'])->first();
 
         if (!$user || !Hash::check($feilds['password'], $user->password)) {
-            return response()->json(['message' => 'The provided credentials are incorrect.'], 422);
+            return response()->json(['message' => 'The provided credentials are incorrect.'], 400);
         }
 
         // Api Access Token can be created here if needed
@@ -49,7 +49,7 @@ class Authenticate extends Controller
         // Revoke all tokens
         $request->user()->tokens()->delete();
 
-        return response(status: 204);
+        return response(status: 200);
     }
 
     public function verifyEmail(Request $request, $id)

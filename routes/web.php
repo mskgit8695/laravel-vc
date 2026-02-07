@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ClientController;
 
 // Guest routes for login and registration
 Route::group(['middleware' => 'guest'], function () {
@@ -14,8 +15,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
     // Registration routes
-    Route::get('/register', fn() => view('register'));
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    // Route::get('/register', fn() => view('register'));
+    // Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
 // Authenticated routes
@@ -33,4 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard/users/edit/{id}', [UserController::class, 'edit'])->name('dashboard.users.edit');
     Route::patch('/dashboard/users/update/{id}', [UserController::class, 'update'])->name('dashboard.users.update');
     Route::delete('/dashboard/users/destroy/{id}', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
+
+    // Client management routes
+    Route::resource('clients', ClientController::class);
 });

@@ -104,7 +104,9 @@
                                                             required>
                                                             <option value="">-- Select Role --</option>
                                                             @foreach ($roles as $role)
-                                                                <option value="{{ $role->id }}">{{ $role->name }}
+                                                                <option value="{{ $role->id }}"
+                                                                    @if ($role->id === 3) selected @endif>
+                                                                    {{ $role->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -123,7 +125,9 @@
                                                             required>
                                                             <option value="">-- Select Status --</option>
                                                             @foreach ($status_list as $id => $value)
-                                                                <option value="{{ $id }}">{{ $value }}
+                                                                <option value="{{ $id }}"
+                                                                    @if ($id === 1) selected @endif>
+                                                                    {{ $value }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

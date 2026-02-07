@@ -91,7 +91,8 @@
                                                             class="form-control @error('employee_id') is-invalid @enderror"
                                                             id="employee_id" name="employee_id"
                                                             placeholder="Enter employee id" required
-                                                            value="{{ old('employee_id', $user->employee_id) }}">
+                                                            value="{{ old('employee_id', $user->employee_id) }}"
+                                                            @if ($user->employee_id != null) readonly @endif>
                                                         <label for="employee_id" class="form-label">Employee Id</label>
                                                         @error('employee_id')
                                                             <div class="invalid-feedback">{{ $message }}</div>

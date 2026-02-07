@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', "User Management - Verma Courier's Admin")
+@section('meta_title', "Client Management - Verma Courier's Admin")
 
 @section('content')
     <main class="main">
@@ -18,7 +18,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ $title ?? 'User Management' }}
+                                        {{ $title ?? 'Client Management' }}
                                     </li>
                                 </ol>
                             </nav>
@@ -28,8 +28,8 @@
                         </div>
                         <section>
                             <div class="card border-btm">
-                                @if (session('success'))
-                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                @if (Session::has('success'))
+                                    <div class="alert alert-success">{{ Session::get('success') }}</div>
                                 @endif
                                 <div class="card-header">
                                     <div class="title-icon">
@@ -40,8 +40,8 @@
                                     </div>
                                     <div class="add-btn">
                                         <a href="{{ route('dashboard.users.new') }}" class="btn btn-orange">
-                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add user"></i>
-                                            Add User
+                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add client"></i>
+                                            Add client
                                         </a>
                                     </div>
                                 </div>
@@ -51,27 +51,16 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Employee ID</th>
-                                                    <th>Full name</th>
-                                                    <th>Email Id</th>
-                                                    <th>Contact No.</th>
-                                                    <th>Role</th>
+                                                    <th>Client Name</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($users as $index => $user)
-                                                    @php
-                                                        $fullname = $user->first_name . ' ' . $user->last_name;
-                                                    @endphp
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $user->employee_id }}</td>
                                                         <td>{{ $fullname }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->mobile_no }}</td>
-                                                        <td>{{ get_user_role($user->role) }}</td>
                                                         <td title="@if ($user->status !== 0) active @endif">
                                                             @if ($user->status === 0)
                                                                 Inactive
@@ -82,7 +71,7 @@
                                                         <td>
                                                             <a
                                                                 href="{{ route('dashboard.users.edit', ['id' => $user->id]) }}">Edit</a>
-                                                            {{-- |
+                                                            |
                                                             <form
                                                                 action="{{ route('dashboard.users.destroy', ['id' => $user->id]) }}"
                                                                 method="POST" style="display:inline;"
@@ -91,7 +80,7 @@
                                                                 @method('delete')
                                                                 <a href="#"
                                                                     onclick="getSubmitForm('desform_{{ $index }}')">Delete</a>
-                                                            </form> --}}
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -111,10 +100,4 @@
     {{-- Footer --}}
     @include('layouts.footer')
     {{-- End Footer --}}
-
-    <script type="text/javascript">
-        function getSubmitForm(formName) {
-            document.getElementById(formName).submit();
-        }
-    </script>
 @endsection

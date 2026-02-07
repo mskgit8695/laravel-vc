@@ -41,11 +41,11 @@ class BookingController extends Controller
             'quantity' => 'required|integer',
             'quantity_type' => "required|in:KG,GM",
             'status' => 'required|string|max:50',
-            'booking_status' => 'required|string|max:50',
-            'book_date' => 'required|date',
+            'booking_status' => 'required|string|max:50'
         ]);
 
         $booking = Booking::create([...$validated, 'created_by' => $request->user()->id, 'booking_status' => 1]);
+        $booking = $this->getBookingDetails($booking->id);
 
         return response()->json(['message' => 'Booking created successfully', 'booking' => $booking], 201);
     }
@@ -122,6 +122,7 @@ class BookingController extends Controller
         }
 
         $booking->booking_status = 2;
+        $booking->updated_by = Request::user()->id;
         $booking->save();
 
         return response()->json(['message' => 'Booking dispatched successfully', 'booking' => $booking]);
@@ -146,9 +147,6 @@ class BookingController extends Controller
             return response()->json(['message' => 'No booking found with consignment number: ' . $consignment_no], 404);
         }
 
-        $booking->booking_status = 3;
-        $booking->save();
-
         // Updating photo name with booking id
         $photo = null;
         if (isset($validated['photo'])) {
@@ -165,6 +163,31 @@ class BookingController extends Controller
             'status' => '1'
         ]);
 
+        // Update the booking with delivered status
+        $booking->booking_status = 3;
+        $booking->updated_by = Request::user()->id;
+        $booking->save();
+
         return response()->json(['message' => 'Booking delivered successfully', 'booking' => $booking]);
+    }
+
+
+    /**
+     * Get Booking Details
+     */
+    public function getBookingDetails($id)
+    {
+        return Booking::addSelect([
+            'id',
+            'client' => Client::select('name')->whereColumn('m_client.id', 'm_booking.client_id')->limit(1),
+            'location_id' => Location::select('name')->whereColumn('m_location.id', 'm_booking.location_id')->limit(1),
+            'book_date',
+            'booking_status',
+            'consignment_no',
+            'quantity',
+            'quantity_type'
+        ])
+            ->where('id', $id)
+            ->first();
     }
 }
