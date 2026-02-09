@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    // Update timestamp constants
+    const CREATED_AT = 'created_on';
+    const UPDATED_AT = 'updated_on';
+
     /**
      * The table associated with the model.
      *
@@ -20,5 +24,8 @@ class Location extends Model
      */
     protected $fillable = [
         'name',
+        'status',
+        'created_by',
+        'updated_by'
     ];
 }

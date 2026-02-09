@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    // Update timestamp constants
+    const CREATED_AT = 'created_on';
+    const UPDATED_AT = 'updated_on';
+
     /**
      * The table associated with the model.
      *
@@ -20,5 +24,10 @@ class Client extends Model
      */
     protected $fillable = [
         'name',
+        'c_address',
+        'c_contact',
+        'status',
+        'created_by',
+        'updated_by'
     ];
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', "User Management - Verma Courier's Admin")
+@section('meta_title', "Booking Management - Verma Courier's Admin")
 
 @section('content')
     <main class="main">
@@ -18,7 +18,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ $title ?? 'User Management' }}
+                                        {{ $title ?? 'Booking Management' }}
                                     </li>
                                 </ol>
                             </nav>
@@ -38,12 +38,12 @@
                                         </span>
                                         {{ $title }}
                                     </div>
-                                    <div class="add-btn">
-                                        <a href="{{ route('dashboard.users.new') }}" class="btn btn-orange">
-                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add user"></i>
-                                            Add User
+                                    {{-- <div class="add-btn">
+                                        <a href="{{ route('bookings.create') }}" class="btn btn-orange">
+                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add booking"></i>
+                                            Add location
                                         </a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -51,41 +51,29 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Employee ID</th>
-                                                    <th>First name</th>
-                                                    <th>Last name</th>
-                                                    <th>Email Id</th>
-                                                    <th>Contact No.</th>
-                                                    <th>Role</th>
+                                                    <th>Consignment No.</th>
+                                                    <th>Booking Date.</th>
+                                                    <th>Client</th>
+                                                    <th>Location</th>
+                                                    <th>Quantity</th>
+                                                    <th>Weights</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($users as $index => $user)
+                                                @foreach ($bookings as $i => $b)
                                                     <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $user->employee_id }}</td>
-                                                        <td>{{ ucfirst($user->first_name) }}</td>
-                                                        <td>{{ ucfirst($user->last_name) }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->mobile_no }}</td>
-                                                        <td>{{ get_user_role($user->role) }}</td>
-                                                        <td title="@if ($user->status !== 0) active @endif">
-                                                            {{ get_status($user->status) }}</td>
+                                                        <td>{{ $i + 1 }}</td>
+                                                        <td>{{ $b->consignment_no }}</td>
+                                                        <td>{{ $b->book_date }}</td>
+                                                        <td>{{ $b->client }}</td>
+                                                        <td>{{ $b->location }}</td>
+                                                        <td>{{ $b->quantity }}</td>
+                                                        <td>{{ $b->quantity_type }}</td>
+                                                        <td>{{ get_booking_status($b->booking_status) }}</td>
                                                         <td>
-                                                            <a
-                                                                href="{{ route('dashboard.users.edit', ['id' => $user->id]) }}">Edit</a>
-                                                            {{-- |
-                                                            <form
-                                                                action="{{ route('dashboard.users.destroy', ['id' => $user->id]) }}"
-                                                                method="POST" style="display:inline;"
-                                                                id="desform_{{ $index }}">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <a href="#"
-                                                                    onclick="getSubmitForm('desform_{{ $index }}')">Delete</a>
-                                                            </form> --}}
+                                                            <a href="{{ route('bookings.edit', $b->id) }}">Edit</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -105,10 +93,4 @@
     {{-- Footer --}}
     @include('layouts.footer')
     {{-- End Footer --}}
-
-    <script type="text/javascript">
-        function getSubmitForm(formName) {
-            document.getElementById(formName).submit();
-        }
-    </script>
 @endsection

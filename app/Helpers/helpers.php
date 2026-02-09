@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 /**
  * Get user role
  */
@@ -13,19 +15,7 @@ if (!function_exists('get_user_role')) {
 
     function get_user_role($role)
     {
-        $user_role = '';
-        switch ($role) {
-            case 1:
-                $user_role = 'Super Admin';
-                break;
-            case 2:
-                $user_role = 'Admin';
-                break;
-            default:
-                $user_role = 'Employee';
-        }
-
-        return $user_role;
+        return DB::table('m_role')->where(['id' => $role, 'status' => 1])->value('name');
     }
 }
 
@@ -45,5 +35,59 @@ if (!function_exists('get_status_list')) {
             0 => 'Inactive',
             1 => 'Active'
         ];
+    }
+}
+
+/**
+ * Get Status like Active or Inactive
+ */
+if (!function_exists('get_status')) {
+    /**
+     * Provide Status List
+     *
+     * @param integer $index
+     * @return string
+     */
+
+    function get_status($index)
+    {
+        // Get status array
+        $status = get_status_list();
+
+        // Return status
+        return $status[$index];
+    }
+}
+
+/**
+ * Get booking status
+ */
+if (!function_exists('get_booking_status')) {
+    /**
+     * Retrieves the booking status.
+     *
+     * @param integer $status
+     * @return \Illuminate\Support\Collection
+     */
+
+    function get_booking_status($status)
+    {
+        return DB::table('m_booking_status')->where(['id' => $status, 'status' => 1])->value('name');
+    }
+}
+
+/**
+ * Get master booking status
+ */
+if (!function_exists('get_booking_master')) {
+    /**
+     * Retrieves the booking master.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+
+    function get_booking_master()
+    {
+        return DB::table('m_booking_status')->where('status', 1)->get(['id', 'name']);
     }
 }

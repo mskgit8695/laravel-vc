@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\BookingController;
 
 // Guest routes for login and registration
 Route::group(['middleware' => 'guest'], function () {
@@ -36,5 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/dashboard/users/destroy/{id}', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
 
     // Client management routes
-    Route::resource('clients', ClientController::class);
+    Route::resource('/dashboard/clients', ClientController::class);
+    // Location management routes
+    Route::resource('/dashboard/locations', LocationController::class);
+    // Role management routes
+    Route::resource('/dashboard/roles', RoleController::class);
+    // Booking management routes
+    Route::resource('/dashboard/bookings', BookingController::class);
 });

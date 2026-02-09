@@ -28,8 +28,8 @@
                         </div>
                         <section>
                             <div class="card border-btm">
-                                @if (Session::has('success'))
-                                    <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                @if (session('success'))
+                                    <div class="alert alert-success">{{ session('success') }}</div>
                                 @endif
                                 <div class="card-header">
                                     <div class="title-icon">
@@ -39,7 +39,7 @@
                                         {{ $title }}
                                     </div>
                                     <div class="add-btn">
-                                        <a href="{{ route('dashboard.users.new') }}" class="btn btn-orange">
+                                        <a href="{{ route('clients.create') }}" class="btn btn-orange">
                                             <i><img src="{{ asset('img/plus-white.png') }}" alt="add client"></i>
                                             Add client
                                         </a>
@@ -51,36 +51,29 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Client Name</th>
+                                                    <th>Name</th>
+                                                    <th>Address</th>
+                                                    <th>Contact No.</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($users as $index => $user)
+                                                @foreach ($clients as $index => $client)
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $fullname }}</td>
-                                                        <td title="@if ($user->status !== 0) active @endif">
-                                                            @if ($user->status === 0)
+                                                        <td>{{ $client->name }}</td>
+                                                        <td>{{ $client->c_address }}</td>
+                                                        <td>{{ $client->c_contact }}</td>
+                                                        <td title="@if ($client->status !== 0) active @endif">
+                                                            @if ($client->status === 0)
                                                                 Inactive
                                                             @else
                                                                 Active
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <a
-                                                                href="{{ route('dashboard.users.edit', ['id' => $user->id]) }}">Edit</a>
-                                                            |
-                                                            <form
-                                                                action="{{ route('dashboard.users.destroy', ['id' => $user->id]) }}"
-                                                                method="POST" style="display:inline;"
-                                                                id="desform_{{ $index }}">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <a href="#"
-                                                                    onclick="getSubmitForm('desform_{{ $index }}')">Delete</a>
-                                                            </form>
+                                                            <a href="{{ route('clients.edit', $client->id) }}">Edit</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

@@ -44,14 +44,28 @@
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-sm-6 col-md-4 col-12">
-                                                    <div class="custom-field @error('fullname') has-validation @enderror">
+                                                    <div class="custom-field @error('first_name') has-validation @enderror">
                                                         <input type="text"
-                                                            class="form-control @error('fullname') is-invalid @enderror"
-                                                            id="fullname" name="fullname" placeholder="Enter Full Name"
+                                                            class="form-control @error('first_name') is-invalid @enderror"
+                                                            id="first_name" name="first_name" placeholder="Enter first name"
                                                             required
-                                                            value="{{ old('fullname', $user->first_name . ' ' . $user->last_name) }}">
-                                                        <label for="fullname" class="form-label">Full Name</label>
-                                                        @error('fullname')
+                                                            value="{{ old('first_name', ucfirst($user->first_name)) }}">
+                                                        <label for="first_name" class="form-label">Full Name</label>
+                                                        @error('first_name')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-md-4 col-12">
+                                                    <div class="custom-field @error('last_name') has-validation @enderror">
+                                                        <input type="text"
+                                                            class="form-control @error('last_name') is-invalid @enderror"
+                                                            id="last_name" name="last_name" placeholder="Enter last name"
+                                                            required
+                                                            value="{{ old('last_name', ucfirst($user->last_name)) }}">
+                                                        <label for="last_name" class="form-label">Last Name</label>
+                                                        @error('last_name')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
@@ -75,8 +89,7 @@
                                                         <input type="text"
                                                             class="form-control @error('mobile_no') is-invalid @enderror"
                                                             id="mobile_no" name="mobile_no" placeholder="Enter mobile no"
-                                                            required minlength="10" maxlength="10"
-                                                            value="{{ old('mobile_no', $user->mobile_no) }}">
+                                                            value="{{ old('mobile_no', $user->mobile_no) }}" />
                                                         <label for="mobile_no" class="form-label">Mobile No.</label>
                                                         @error('mobile_no')
                                                             <div class="invalid-feedback">{{ $message }}</div>

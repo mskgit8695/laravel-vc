@@ -37,37 +37,55 @@ class UserController extends Controller
     {
         // Handle add new user
         $validator = Validator::make($request->all(), [
-            'fullname' => 'required|string|max:100',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
             'email' => 'required|string|email:rfc,dns|max:255|unique:users',
             'employee_id' => 'required|string|max:50|unique:users',
             'mobile_no' => 'required|integer|min:10|max_digits:10',
+            'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:1,2,3',
             'status' => 'required|in:0,1'
+        ], [
+            'first_name.required' => 'The first name is required!',
+            'first_name.string' => 'The first name must be a string!',
+            'first_name.max' => 'The first name should not exceed 100 characters in length!',
+            'last_name.required' => 'The last name is required!',
+            'last_name.string' => 'The last name must be a string!',
+            'last_name.max' => 'The last name should not exceed 100 characters in length!',
+            'email.required' => 'The email is required!',
+            'email.regex' => 'The email is not valid!',
+            'email.max' => 'The email should not exceed 250 characters in length!',
+            'email.unique' => 'The email is already registered with us!',
+            'employee_id.required' => 'The employee id is required!',
+            'employee_id.unique' => 'The employee id is already on file with us!',
+            'employee_id.max' => 'The employee id should not exceed 50 characters in length!',
+            'mobile_no.required' => 'The mobile no is required!',
+            'mobile_no.integer' => 'The mobile no is not valid!',
+            'mobile_no.max_digits' => 'The mobile no should not exceed 10 characters in length!',
+            'mobile_no.min' => 'The password must be at least 10 characters long!',
+            'password.required' => 'The password is required!',
+            'password.min' => 'The password must be at least 8 characters long!',
+            'password.confirmed' => 'The confirmed password does not match the entered password!',
+            'role.required' => 'The role is required!',
+            'role.in' => 'The role is not valid!',
+            'status.required' => 'The status is required!',
+            'status.in' => 'The status is not valid!',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Split fullname into first_name and last_name
-        $first_name = $request->input('fullname');
-        $last_name = '';
-        $name_parts = explode(' ', $request->input('fullname'), 2);
-        if (is_array($name_parts) && sizeof($name_parts) > 1) {
-            $first_name = trim($name_parts[0]) ?? '';
-            $last_name = trim($name_parts[1]) ?? '';
-        }
-
         // Create the user
         User::create([
-            'first_name' => $first_name,
-            'last_name' => $last_name,
+            'first_name' => Str::lower($request->input('first_name')),
+            'last_name' => Str::lower($request->input('last_name')),
             'email' => Str::lower($request->input('email')),
             'employee_id' => $request->input('employee_id'),
             'mobile_no' => $request->input('mobile_no'),
             'role' => $request->input('role'),
             'status' => $request->input('status'),
-            'password' => Hash::make(Str::lower($request->input('email'))),
+            'password' => Hash::make($request->input('password')),
             'created_by' => Auth::user()->id
         ]);
 
@@ -104,29 +122,35 @@ class UserController extends Controller
     {
         // Handle add new user
         $validated = $request->validate([
-            'fullname' => 'required|string|max:100',
-            'employee_id' => 'required|string|max:50',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
             'mobile_no' => 'required|integer|min:10|max_digits:10',
             'role' => 'required|in:1,2,3',
             'status' => 'required|in:0,1'
+        ], [
+            'first_name.required' => 'The first name is required!',
+            'first_name.string' => 'The first name must be a string!',
+            'first_name.max' => 'The first name should not exceed 100 characters in length!',
+            'last_name.required' => 'The last name is required!',
+            'last_name.string' => 'The last name must be a string!',
+            'last_name.max' => 'The last name should not exceed 100 characters in length!',
+            'mobile_no.required' => 'The mobile no is required!',
+            'mobile_no.integer' => 'The mobile no is not valid!',
+            'mobile_no.max_digits' => 'The mobile no should not exceed 10 characters in length!',
+            'mobile_no.min' => 'The password must be at least 10 characters long!',
+            'role.required' => 'The role is required!',
+            'role.in' => 'The role is not valid!',
+            'status.required' => 'The status is required!',
+            'status.in' => 'The status is not valid!',
         ]);
+
+        // Including updated by
+        $validated['updated_by'] = Auth::user()->id;
 
         // Fetch User Data
         $user = User::findOrFail($id);
 
-        // Update the first_name and last_name
-        $first_name = $validated['fullname'];
-        $last_name = '';
-        $name_parts = explode(' ', $validated['fullname'], 2);
-        if (is_array($name_parts) && sizeof($name_parts) > 1) {
-            $first_name = trim($name_parts[0]) ?? '';
-            $last_name = trim($name_parts[1]) ?? '';
-        }
-
-        $validated['first_name'] = $first_name;
-        $validated['last_name'] = $last_name;
-
-        $user->update([...$validated, 'updated_by' => Auth::user()->id]);
+        $user->update($validated);
 
         // Redirect to users page with success message
         return redirect()->route('dashboard.users')->with('success', 'User has been updated successfully!');
@@ -138,7 +162,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         // Soft delete user
-        User::where('id', $id)->delete();
+        User::where('id', $id)->update(['status' => 0, 'updated_by' => Auth::user()->id, 'deleted_at' => now()]);
 
         // Redirect to users page with success message
         return redirect()->route('dashboard.users')->with('success', 'User has been deleted successfully!');

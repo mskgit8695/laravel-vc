@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', "User Management - Verma Courier's Admin")
+@section('meta_title', "Location Management - Verma Courier's Admin")
 
 @section('content')
     <main class="main">
@@ -18,7 +18,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ $title ?? 'User Management' }}
+                                        {{ $title ?? 'Location Management' }}
                                     </li>
                                 </ol>
                             </nav>
@@ -39,9 +39,9 @@
                                         {{ $title }}
                                     </div>
                                     <div class="add-btn">
-                                        <a href="{{ route('dashboard.users.new') }}" class="btn btn-orange">
-                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add user"></i>
-                                            Add User
+                                        <a href="{{ route('locations.create') }}" class="btn btn-orange">
+                                            <i><img src="{{ asset('img/plus-white.png') }}" alt="add client"></i>
+                                            Add location
                                         </a>
                                     </div>
                                 </div>
@@ -51,41 +51,29 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Employee ID</th>
-                                                    <th>First name</th>
-                                                    <th>Last name</th>
-                                                    <th>Email Id</th>
-                                                    <th>Contact No.</th>
-                                                    <th>Role</th>
+                                                    <th>Name</th>
+                                                    {{-- <th>Address</th>
+                                                    <th>Contact No.</th> --}}
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($users as $index => $user)
+                                                @foreach ($locations as $index => $client)
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $user->employee_id }}</td>
-                                                        <td>{{ ucfirst($user->first_name) }}</td>
-                                                        <td>{{ ucfirst($user->last_name) }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->mobile_no }}</td>
-                                                        <td>{{ get_user_role($user->role) }}</td>
-                                                        <td title="@if ($user->status !== 0) active @endif">
-                                                            {{ get_status($user->status) }}</td>
+                                                        <td>{{ $client->name }}</td>
+                                                        {{-- <td>{{ $client->c_address }}</td>
+                                                        <td>{{ $client->c_contact }}</td> --}}
+                                                        <td title="@if ($client->status !== 0) active @endif">
+                                                            @if ($client->status === 0)
+                                                                Inactive
+                                                            @else
+                                                                Active
+                                                            @endif
+                                                        </td>
                                                         <td>
-                                                            <a
-                                                                href="{{ route('dashboard.users.edit', ['id' => $user->id]) }}">Edit</a>
-                                                            {{-- |
-                                                            <form
-                                                                action="{{ route('dashboard.users.destroy', ['id' => $user->id]) }}"
-                                                                method="POST" style="display:inline;"
-                                                                id="desform_{{ $index }}">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <a href="#"
-                                                                    onclick="getSubmitForm('desform_{{ $index }}')">Delete</a>
-                                                            </form> --}}
+                                                            <a href="{{ route('locations.edit', $client->id) }}">Edit</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -105,10 +93,4 @@
     {{-- Footer --}}
     @include('layouts.footer')
     {{-- End Footer --}}
-
-    <script type="text/javascript">
-        function getSubmitForm(formName) {
-            document.getElementById(formName).submit();
-        }
-    </script>
 @endsection

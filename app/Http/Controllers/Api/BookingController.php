@@ -90,18 +90,7 @@ class BookingController extends Controller
     public function dispatchBooking(string $consignment_no)
     {
         try {
-            $booking = Booking::addSelect([
-                'id',
-                'client' => Client::select('name')->whereColumn('m_client.id', 'm_booking.client_id')->limit(1),
-                'location_id' => Location::select('name')->whereColumn('m_location.id', 'm_booking.location_id')->limit(1),
-                'book_date',
-                'booking_status',
-                'consignment_no',
-                'quantity',
-                'quantity_type'
-            ])
-                ->where(['consignment_no' => $consignment_no, 'booking_status' => 1])
-                ->first();
+            $booking = Booking::where(['consignment_no' => $consignment_no, 'booking_status' => 1])->getBookings()->first();
 
             if (!$booking) {
                 return response()->json(['message' => 'No booking found with consignment number: ' . $consignment_no], 400);
