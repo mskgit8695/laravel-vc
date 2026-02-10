@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use PDOException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BookingController extends Controller
 {
@@ -87,18 +88,32 @@ class BookingController extends Controller
     /**
      * Dispatch the specified booking to in-transit.
      */
-    public function dispatchBooking(string $consignment_no)
+    public function dispatchBooking(Request $request)
     {
         try {
-            $booking = Booking::where(['consignment_no' => $consignment_no, 'booking_status' => 1])->getBookings()->first();
+            // Validation rules
+            $rules = [
+                'bookings' => 'required|array|min:1|max:10',
+                'bookings.*.consignment_no' => 'required|string|alpha_num:ascii|max:10|exists:m_booking',
+                'bookings.*.location_id' => 'required|integer',
+            ];
 
-            if (!$booking) {
-                return response()->json(['message' => 'No booking found with consignment number: ' . $consignment_no], 400);
-            }
+            // Validation message
+            $messages = [
+                'bookings.required' => 'The bookings is required!',
+                'bookings.min' => 'The bookings is required!',
+                'bookings.max' => 'The bookings is required!',
+                'bookings.*.consignment_no.required' => 'The consignment no is required!',
+                'bookings.*.consignment_no.exists' => 'The consignment no is not available!',
+                'bookings.*.location_id.required' => 'The location is required!',
+                'bookings.*.location_id.integer' => 'The location is required!',
+            ];
 
-            $booking->booking_status = 2;
-            $booking->updated_by = Request::user()->id;
-            $booking->save();
+            // Validate the request
+            $validated = $request->validate($rules, $messages);
+
+            // Update the booking
+            $booking = $this->updateBooking($validated, $request);
 
             return response()->json(['message' => 'Booking dispatched successfully', 'booking' => $booking]);
         } catch (QueryException $e) {
@@ -108,7 +123,7 @@ class BookingController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['message' => $e->getMessage(), 'errors' => $e->errors()], 400);
         } catch (\Throwable $e) {
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+            return response()->json(['error' => 'An unexpected error occurred.', 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -186,7 +201,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Store Booking with multiple data
+     * Create new Booking with multiple data
      */
     public function createBooking($bookingData, $request)
     {
@@ -203,6 +218,36 @@ class BookingController extends Controller
             }
 
             return $bookingDetails;
+        });
+    }
+
+    /**
+     * Update booking with multiple data
+     */
+    public function updateBooking($bookingData, $request)
+    {
+        return DB::transaction(function () use ($bookingData, $request) {
+            $updatedBooking = [];
+            foreach ($bookingData['bookings'] as $item) {
+                // Fetch booking
+                $booking = Booking::where(['consignment_no' => $item['consignment_no'], 'booking_status' => 1])->first();
+                if (empty($booking)) {
+                    throw new NotFoundHttpException('No bookings found with these consignment no.');
+                    break;
+                } else if (!empty($booking->id)) {
+                    // Modify value
+                    $booking->location_id = $item['location_id'];
+                    $booking->booking_status = 2;
+                    $booking->updated_by = $request->user()->id;
+
+                    // Save the data
+                    $booking->save();
+
+                    // Combine arr
+                    array_push($updatedBooking, $this->getBookingDetails($booking->id));
+                }
+            }
+            return $updatedBooking;
         });
     }
 }

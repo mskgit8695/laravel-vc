@@ -20,6 +20,17 @@ Route::group(['middleware' => 'guest'], function () {
     // Registration routes
     // Route::get('/register', fn() => view('register'));
     // Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+    // Forgot password
+    Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+    Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
+
+    // Reset password
+    Route::get('/reset-password/{token}', [AuthController::class, 'showForm'])
+        ->name('password.reset');
+
+    Route::post('/reset-password', [AuthController::class, 'reset'])
+        ->name('password.update');
 });
 
 // Authenticated routes
@@ -46,4 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/dashboard/roles', RoleController::class);
     // Booking management routes
     Route::resource('/dashboard/bookings', BookingController::class);
+    // Change password
+    Route::view('/dashboard/change-password', 'dashboard.users.change-password')->name('dashboard.change-password');
+    Route::post('/dashboard/change-password', [UserController::class, 'update_password'])->name('dashboard.update-password');
 });

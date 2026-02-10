@@ -167,4 +167,34 @@ class UserController extends Controller
         // Redirect to users page with success message
         return redirect()->route('dashboard.users')->with('success', 'User has been deleted successfully!');
     }
+
+    /**
+     * Update password
+     */
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'current_password.required' => 'The current password is required!',
+            'password.required' => 'The password is required!',
+            'password.min' => 'The password is should be at least 8 character long!',
+            'password.confirmed' => 'The confirm password does not match with password!',
+        ]);
+
+        $user = User::where('id', Auth::user()->id);
+
+        if (!empty($user->password) && !Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'Current password is incorrect.',
+            ]);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('success', 'Password changed successfully.');
+    }
 }
