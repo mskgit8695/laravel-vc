@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', "Login - Verma Courier's admin");
+@section('meta_title', "Login - Verma Courier's admin")
 
 @section('content')
     <main class="main">

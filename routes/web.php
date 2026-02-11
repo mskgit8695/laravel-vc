@@ -59,5 +59,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/dashboard/bookings', BookingController::class);
     // Change password
     Route::view('/dashboard/change-password', 'dashboard.users.change-password')->name('dashboard.change-password');
-    Route::post('/dashboard/change-password', [UserController::class, 'update_password'])->name('dashboard.update-password');
+    Route::post('/dashboard/change-password', [AuthController::class, 'change_password'])->name('dashboard.update-password');
+
+    // Report generation
+    Route::get('/dashboard/report/search', [BookingController::class, 'show_report_form'])->name('dashboard.show-report-form');
+    Route::post('/dashboard/report/filter', [BookingController::class, 'filter_report_data'])->name('dashboard.filter-report-data');
 });

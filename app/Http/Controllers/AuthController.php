@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\User;
+use App\Services\PasswordService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +16,10 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        protected PasswordService $passwordService
+    ) {}
+
     public function login(Request $request)
     {
         // Handle login logic here
@@ -130,5 +138,23 @@ class AuthController extends Controller
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('success', 'Password reset successful. You can login now.')
             : back()->withErrors(['email' => __($status)]);
+    }
+
+    /**
+     * Handle change password both api and web
+     */
+    public function change_password(ChangePasswordRequest $request): JsonResponse|RedirectResponse
+    {
+        $this->passwordService->changePassword(
+            $request->user(),
+            $request->current_password,
+            $request->password
+        );
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Password changed successfully.']);
+        }
+
+        return back()->with('success', 'Password changed successfully.');
     }
 }

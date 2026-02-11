@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('meta_title', "Register - Verma Courier's admin");
+@section('meta_title', "Register - Verma Courier's admin")
 
 @section('content')
     <header class="login-header">

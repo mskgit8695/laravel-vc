@@ -94,4 +94,49 @@ class BookingController extends Controller
     {
         //
     }
+
+    /**
+     * Show get report form
+     */
+    public function show_report_form()
+    {
+        // Fetch booking status master
+        $booking_status_master = get_booking_master();
+
+        // Fetch booking
+        $bookings = Booking::getBookings()->orderByDesc('book_date')->get();
+
+        // Render view
+        return view('dashboard.bookings.report-list', [
+            'booking_status' => $booking_status_master,
+            'bookings' => $bookings,
+            'startDate' => '',
+            'endDate' => '',
+            'bookingType' => '',
+        ]);
+    }
+
+    /**
+     * Filter the report data based on selection
+     */
+    public function filter_report_data(Request $request)
+    {
+        // Fetch bookings based input
+        $bookings = Booking::filter($request->all())->getBookings()->orderByDesc('book_date')->get();
+
+        // Fetch booking status master
+        $booking_status_master = get_booking_master();
+
+        // Render view
+        return view(
+            'dashboard.bookings.report-list',
+            [
+                'booking_status' => $booking_status_master,
+                'bookings' => $bookings,
+                'startDate' => $request->input('startDate'),
+                'endDate' => $request->input('endDate'),
+                'bookingType' => $request->input('bookingType'),
+            ]
+        );
+    }
 }

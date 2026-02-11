@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 class Booking extends Model
@@ -56,5 +58,25 @@ class Booking extends Model
             'quantity',
             'quantity_type'
         ]);
+    }
+
+    // format book date into d-m-Y
+    protected function bookDateFormat(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => Carbon::parse($attributes['book_date'])->format('d-m-Y'),
+        );
+    }
+
+    /**
+     * Scope a query to filter booking based on input request
+     */
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        $query->when(isset($filters['startDate'], $filters['endDate']), function ($query) use ($filters) {
+            $query->whereBetween('book_date', [$filters['startDate'], $filters['endDate']]);
+        })->when($filters['bookingType'] ?? null, function ($query, $bookingType) {
+            $query->where('booking_status', $bookingType);
+        });
     }
 }

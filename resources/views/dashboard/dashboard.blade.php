@@ -10,7 +10,8 @@
             {{-- Content --}}
             <section class="right-section">
                 <div class="scroller">
-                    <div class="upper-tiles">
+                    <h1 style="text-align: center; margin-top: 15%">Welcome to the Verma Couriers</h1>
+                    {{-- <div class="upper-tiles">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-3 col-sm-6 col-12">
@@ -164,7 +165,7 @@
                                 Content 02
                             </div>
                         </div>
-                    </section>
+                    </section> --}}
                 </div><!-- End of scroller Div -->
             </section>
         </div>

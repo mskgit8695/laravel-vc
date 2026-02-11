@@ -13,9 +13,9 @@
             <div class="col-6">
                 <div class="menu-hnd-btn">
                     <ul>
-                        <li><a href="#">AAA</a></li>
-                        <li><a href="#">BBB</a></li>
-                        <li>
+                        <li><a href="javascript:void(0)">Hello, {{ Auth::user()->first_name }}</a></li>
+                        <li><a href="{{ route('logout') }}">Logout</a></li>
+                        {{-- <li>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -25,7 +25,7 @@
                                     <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>

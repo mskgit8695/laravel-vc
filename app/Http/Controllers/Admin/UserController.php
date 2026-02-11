@@ -120,14 +120,21 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Handle add new user
-        $validated = $request->validate([
+        // Validation rules
+        $rules = [
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'mobile_no' => 'required|integer|min:10|max_digits:10',
             'role' => 'required|in:1,2,3',
             'status' => 'required|in:0,1'
-        ], [
+        ];
+
+        if ($request->input('password') && !empty($request->input('password'))) {
+            $rules = [...$rules, 'password' => 'sometimes|required|string|min:8|confirmed'];
+        }
+
+        // Handle add new user
+        $validated = $request->validate($rules, [
             'first_name.required' => 'The first name is required!',
             'first_name.string' => 'The first name must be a string!',
             'first_name.max' => 'The first name should not exceed 100 characters in length!',
@@ -142,10 +149,17 @@ class UserController extends Controller
             'role.in' => 'The role is not valid!',
             'status.required' => 'The status is required!',
             'status.in' => 'The status is not valid!',
+            'password.required' => 'The password is required!',
+            'password.min' => 'The password must be at least 8 characters long!',
+            'password.confirmed' => 'The confirmed password does not match the entered password!',
         ]);
 
         // Including updated by
         $validated['updated_by'] = Auth::user()->id;
+
+        if ($request->input('password') && !empty($request->input('password'))) {
+            $validated['password'] = Hash::make($request->input('password'));
+        }
 
         // Fetch User Data
         $user = User::findOrFail($id);
@@ -166,35 +180,5 @@ class UserController extends Controller
 
         // Redirect to users page with success message
         return redirect()->route('dashboard.users')->with('success', 'User has been deleted successfully!');
-    }
-
-    /**
-     * Update password
-     */
-    public function update_password(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|min:8|confirmed',
-        ], [
-            'current_password.required' => 'The current password is required!',
-            'password.required' => 'The password is required!',
-            'password.min' => 'The password is should be at least 8 character long!',
-            'password.confirmed' => 'The confirm password does not match with password!',
-        ]);
-
-        $user = User::where('id', Auth::user()->id);
-
-        if (!empty($user->password) && !Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors([
-                'current_password' => 'Current password is incorrect.',
-            ]);
-        }
-
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        return back()->with('success', 'Password changed successfully.');
     }
 }

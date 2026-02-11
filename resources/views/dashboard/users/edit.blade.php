@@ -89,7 +89,8 @@
                                                         <input type="text"
                                                             class="form-control @error('mobile_no') is-invalid @enderror"
                                                             id="mobile_no" name="mobile_no" placeholder="Enter mobile no"
-                                                            value="{{ old('mobile_no', $user->mobile_no) }}" />
+                                                            value="{{ old('mobile_no', $user->mobile_no) }}" minlength="10"
+                                                            maxlength="10" />
                                                         <label for="mobile_no" class="form-label">Mobile No.</label>
                                                         @error('mobile_no')
                                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -108,6 +109,35 @@
                                                             @if ($user->employee_id != null) readonly @endif>
                                                         <label for="employee_id" class="form-label">Employee Id</label>
                                                         @error('employee_id')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-md-4 col-12">
+                                                    <div class="custom-field @error('password') has-validation @enderror">
+                                                        <input type="password"
+                                                            class="form-control @error('password') is-invalid @enderror"
+                                                            id="password" name="password" placeholder="Enter password"
+                                                            minlength="8" value="" />
+                                                        <label for="password" class="form-label">Password</label>
+                                                        @error('password')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-md-4 col-12">
+                                                    <div
+                                                        class="custom-field @error('password_confirmation') has-validation @enderror">
+                                                        <input type="password"
+                                                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                                                            id="password_confirmation" name="password_confirmation"
+                                                            placeholder="Enter confirm password" minlength="8"
+                                                            value="" />
+                                                        <label for="password_confirmation" class="form-label">Confirm
+                                                            Password</label>
+                                                        @error('password_confirmation')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>

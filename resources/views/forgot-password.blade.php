@@ -34,6 +34,9 @@
                                     <button type="submit" class="btn btn-lg btn-orange w-100">Send Password Reset
                                         Link</button>
                                 </div>
+                                <p>
+                                    <a href="{{ url('/login') }}">Back to login</a>
+                                </p>
                             </form>
                         </div><!-- End of login-form Div -->
                     </div><!-- End of login-wrap Div -->
