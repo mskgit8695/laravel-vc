@@ -1,12 +1,15 @@
 <?php
 
+namespace App\Exceptions;
+
+use Exception;
 use Throwable;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Handler extends ExceptionHandler
+class Handler extends Exception
 {
     public function render($request, Throwable $exception)
     {
@@ -23,7 +26,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $exception->errors(),
-            ], 422);
+            ], 400);
         }
 
         if ($exception instanceof AuthenticationException) {
@@ -31,7 +34,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['message' => 'Resource not found'], 404);
+            return response()->json(['message' => 'Resource not found'], 400);
         }
 
         return response()->json([

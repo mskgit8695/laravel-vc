@@ -34,14 +34,16 @@
                     Location Managment
                 </a>
             </li>
-            <li>
-                <a href="{{ route('roles.index') }}" class="@if (str_contains(url()->current(), 'roles')) active @endif">
-                    <i>
-                        <img src="{{ asset('img/icons/dashbord/dash-04.png') }}" alt="roles">
-                    </i>
-                    Role Managment
-                </a>
-            </li>
+            @if (Auth::user()->role === 3)
+                <li>
+                    <a href="{{ route('roles.index') }}" class="@if (str_contains(url()->current(), 'roles')) active @endif">
+                        <i>
+                            <img src="{{ asset('img/icons/dashbord/dash-04.png') }}" alt="roles">
+                        </i>
+                        Role Managment
+                    </a>
+                </li>
+            @endif
             <li>
                 <a href="{{ route('bookings.index') }}" class="@if (str_contains(url()->current(), 'bookings')) active @endif">
                     <i>

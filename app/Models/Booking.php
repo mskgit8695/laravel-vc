@@ -49,7 +49,7 @@ class Booking extends Model
     public function scopeGetBookings(Builder $query): void
     {
         $query->addSelect([
-            'id',
+            'm_booking.id',
             'client' => Client::select('name')->whereColumn('m_client.id', 'm_booking.client_id')->limit(1),
             'location' => Location::select('name')->whereColumn('m_location.id', 'm_booking.location_id')->limit(1),
             'book_date',

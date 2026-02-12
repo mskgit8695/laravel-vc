@@ -21,6 +21,11 @@
                             </div>
                             <div class="card-body">
                                 <div class="container-fluid">
+                                    <form action="{{ route('dashboard.report.download') }}" id="report-download"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="report_type" id="report_type" value="">
+                                    </form>
                                     <form action="{{ route('dashboard.filter-report-data') }}" method="POST">
                                         @csrf
                                         <div class="row">
@@ -58,15 +63,16 @@
                                                 <div class="custom-field">
                                                     <button class="btn btn-md btn-orange-outline"
                                                         type="submit">Search</button>
-                                                    &nbsp;
-                                                    <a href="javascript:void(0);"
-                                                        onclick="getDownloadReport('excel')"><i><img
-                                                                src="{{ asset('img/icons/download-01.png') }}"
-                                                                alt="download excel" /></i></a>
-                                                    &nbsp;
-                                                    <a href="javascript:void(0);" onclick="getDownloadReport('pdf')"><i><img
-                                                                src="{{ asset('img/icons/pdf-file.png') }}"
-                                                                alt="download pdf" /></i></a>
+                                                    @if (!empty($startDate) || !empty($endDate) || !empty($bookingType))
+                                                        &nbsp;
+                                                        <a href="#" onclick="getDownloadReport('excel')"><i><img
+                                                                    src="{{ asset('img/icons/download-01.png') }}"
+                                                                    alt="download excel" /></i></a>
+                                                        &nbsp;
+                                                        <a href="#" onclick="getDownloadReport('pdf')"><i><img
+                                                                    src="{{ asset('img/icons/pdf-file.png') }}"
+                                                                    alt="download pdf" /></i></a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +114,7 @@
                                                                 <td>{{ $b->quantity_type }}</td>
                                                                 <td>{{ get_booking_status($b->booking_status) }}</td>
                                                                 <td>
-                                                                    <a href="{{ route('bookings.edit', $b->id) }}">Edit</a>
+                                                                    <a href="{{ route('bookings.show', $b->id) }}">View</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -161,7 +167,57 @@
 
         // Get download report
         function getDownloadReport(reportType) {
+            // Form Id
+            const form = document.getElementById('report-download');
 
+            // Input
+            const inputStart = document.getElementById('startDate').value;
+            const inputEnd = document.getElementById('endDate').value;
+            const inputType = document.getElementById('bookingType').value;
+
+            // Append
+            document.getElementById('report_type').value = reportType;
+            let hiddenData;
+
+            if (inputStart != '' && inputEnd != '' && inputType == '') {
+                hiddenData = [{
+                    name: 'startDate',
+                    value: inputStart
+                }, {
+                    name: 'endDate',
+                    value: inputEnd
+                }];
+            } else if (inputStart == '' && inputEnd == '' && inputType != '') {
+                hiddenData = [{
+                    name: 'bookingType',
+                    value: inputType
+                }];
+            } else if (inputStart != '' && inputEnd != '' && inputType != '') {
+                hiddenData = [{
+                        name: 'startDate',
+                        value: inputStart
+                    }, {
+                        name: 'endDate',
+                        value: inputEnd
+                    },
+                    {
+                        name: 'bookingType',
+                        value: inputType
+                    }
+                ];
+            }
+
+            // Loop through the data and create/append the hidden inputs
+            hiddenData.forEach(data => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('name', data.name);
+                input.setAttribute('value', data.value);
+                form.appendChild(input);
+            });
+
+            // Submit the form
+            form.submit();
         }
     </script>
 @endsection

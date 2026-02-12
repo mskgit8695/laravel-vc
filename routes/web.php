@@ -64,4 +64,6 @@ Route::group(['middleware' => 'auth'], function () {
     // Report generation
     Route::get('/dashboard/report/search', [BookingController::class, 'show_report_form'])->name('dashboard.show-report-form');
     Route::post('/dashboard/report/filter', [BookingController::class, 'filter_report_data'])->name('dashboard.filter-report-data');
+    Route::post('/dashboard/report/download', [BookingController::class, 'generate_report'])->name('dashboard.report.download');
+    Route::get('/download-image/{filename}', [BookingController::class, 'download'])->name('download.image');
 });

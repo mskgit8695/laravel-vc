@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
+use App\Exports\ReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Services\ReportService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
+    /**
+     * Report service addon in construct
+     */
+    public function __construct(
+        protected ReportService $reportService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +55,15 @@ class BookingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Fetch booking data
+        $booking = Booking::leftJoin('m_booking_received', 'm_booking.id', '=', 'm_booking_received.book_id')
+            ->where('m_booking.id', $id)
+            ->select('receiver_name', 'receiver_mobile', 'photo', 'updated_on as delivered_date')
+            ->getBookings()
+            ->first();
+
+        // Render edit booking
+        return view('dashboard.bookings.view', ['booking' => $booking]);
     }
 
     /**
@@ -77,7 +98,7 @@ class BookingController extends Controller
         ]);
 
         // Including updated by
-        $validated['updated_by'] = Auth::user()->id;
+        $validated['updated_by'] = $request->user()->id;
 
         // Insert location data
         $booking = Booking::findOrFail($id);
@@ -138,5 +159,57 @@ class BookingController extends Controller
                 'bookingType' => $request->input('bookingType'),
             ]
         );
+    }
+
+    /**
+     * Generate report based on input request
+     */
+    public function generate_report(Request $request)
+    {
+        // Report type
+        $type = $request->input('report_type');
+        // Fetch data
+        $data = $this->reportService->bookingReport($request->all());
+        if ($type === 'pdf') {
+            // Load view
+            $pdf = Pdf::loadView('dashboard.bookings.report', compact('data'));
+            // Download
+            return $pdf->download('booking-report-' . time() . '.pdf');
+        } else if ($type === 'excel') {
+            return Excel::download(new ReportExport($data), 'booking-report-' . time() . '.xlsx');
+        } else {
+            throw new Exception('The report type is not available to download');
+        }
+    }
+
+    /**
+     * Get download uploaded pod
+     */
+    // public function download($filename)
+    // {
+    //     // Construct the full physical path
+    //     $filePath = public_path('booking-pod/' . $filename);
+
+    //     // Check if the file exists
+    //     if (file_exists($filePath)) {
+    //         // Return the file as a download response
+    //         return response()->download($filePath, $filename);
+    //     } else {
+    //         abort(404, 'Image not found');
+    //     }
+    // }
+
+    public function download($filename)
+    {
+        // Construct the full path within the storage disk
+        $filePath = 'public/booking-pod/' . $filename;
+
+        // Check if the file exists
+        if (Storage::disk('local')->exists($filePath)) {
+            // Return the file as a download
+            return Storage::download($filePath, $filename);
+        } else {
+            abort(404, 'Image not found');
+        }
     }
 }

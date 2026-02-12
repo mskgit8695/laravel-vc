@@ -91,3 +91,18 @@ if (!function_exists('get_booking_master')) {
         return DB::table('m_booking_status')->where('status', 1)->get(['id', 'name']);
     }
 }
+
+/**
+ * Convert date into d-m-Y to display
+ */
+if (!function_exists('convert_date_format')) {
+    /**
+     * Convert the date format into d-m-Y
+     * @param string $date
+     * @return date
+     */
+    function convert_date_format($date)
+    {
+        return date('d-m-Y', strtotime($date));
+    }
+}
