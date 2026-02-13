@@ -74,20 +74,24 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => 'Something went wrong.',
                 ], 500);
             }
+
+            dd($e->getMessage());
+
             return response()->view('errors.500', [], 500);
         });
 
-        // Global Fallback Exception (Production Safe)
-        $exceptions->render(function (Throwable $e, Request $request) {
-            if ($request->expectsJson() || $request->is('api/*')) {
-                return response()->json([
-                    'message' => config('app.debug')
-                        ? $e->getMessage()
-                        : 'Something went wrong.',
-                ], 500);
-            }
-            return response()->view('errors.500', [], 500);
-        });
+        // // Global Fallback Exception (Production Safe)
+        // $exceptions->render(function (Throwable $e, Request $request) {
+        //     if ($request->expectsJson() || $request->is('api/*')) {
+        //         return response()->json([
+        //             'message' => config('app.debug')
+        //                 ? $e->getMessage()
+        //                 : 'Something went wrong.',
+        //         ], 500);
+        //     }
+        //     // dd($e->getMessage());
+        //     return response()->view('errors.500', [], 500);
+        // });
 
         // You can also add reportable callbacks here for logging specific exceptions
         $exceptions->reportable(function (Throwable $e) {

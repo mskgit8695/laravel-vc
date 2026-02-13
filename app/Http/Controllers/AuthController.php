@@ -33,7 +33,7 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => Str::lower($request->input('email')), 'password' => $request->input('password'), 'status' => 1])) {
-            return redirect('/dashboard');
+            return redirect()->intended('/dashboard');
         } else {
             return redirect()->back()->with(['error' => 'Either your email or password is incorrect, or your account is not active.']);
         }

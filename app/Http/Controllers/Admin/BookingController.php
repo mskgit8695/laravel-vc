@@ -57,7 +57,7 @@ class BookingController extends Controller
         // Fetch booking data
         $booking = Booking::leftJoin('m_booking_received', 'm_booking.id', '=', 'm_booking_received.book_id')
             ->where('m_booking.id', $id)
-            ->select('receiver_name', 'receiver_mobile', 'photo', 'updated_on as delivered_date')
+            ->select('receiver_name', 'receiver_mobile', 'photo', 'm_booking_received.updated_on as delivered_date')
             ->getBookings()
             ->first();
 
