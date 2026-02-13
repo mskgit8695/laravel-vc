@@ -26,7 +26,8 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="#" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                                <a href="#" class="btn-link-orange" onclick="history.back()"><span>&#10140;</span>
+                                    Back</a>
                             </div>
                         </div>
                         <form action="{{ route('bookings.update', $booking->id) }}" method="POST" autocomplete="off">
@@ -105,7 +106,8 @@
                             <div class="action-btn">
                                 <ul>
                                     <li>
-                                        <a class="btn btn-lg btn-orange-outline" href="#">Back</a>
+                                        <a class="btn btn-lg btn-orange-outline" href="#"
+                                            onclick="history.back()">Back</a>
                                     </li>
                                     <li>
                                         <button class="btn btn-lg btn-orange-outline" type="submit">

@@ -23,7 +23,8 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="{{ url()->previous() }}" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span>
+                                    Back</a>
                             </div>
                         </div>
                         <div class="custom-accordion">
@@ -114,8 +115,8 @@
                                 <div class="action-btn">
                                     <ul>
                                         <li>
-                                            <a href="{{ url()->previous() }}"
-                                                class="btn btn-lg btn-orange-outline">Back</a>
+                                            <a href="#" class="btn btn-lg btn-orange-outline"
+                                                onclick="history.back()">Back</a>
                                         </li>
                                     </ul>
                                 </div>

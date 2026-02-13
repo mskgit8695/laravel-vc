@@ -25,7 +25,7 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="#" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                                <a href="{{ route('dashboard') }}" class="btn-link-orange"><span>&#10140;</span> Back</a>
                             </div>
                         </div>
                         <form action="{{ route('dashboard.update-password') }}" method="POST" autocomplete="off">

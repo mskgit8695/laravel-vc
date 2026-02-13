@@ -9,7 +9,6 @@ use App\Models\Booking;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -181,23 +180,6 @@ class BookingController extends Controller
             throw new Exception('The report type is not available to download');
         }
     }
-
-    /**
-     * Get download uploaded pod
-     */
-    // public function download($filename)
-    // {
-    //     // Construct the full physical path
-    //     $filePath = public_path('booking-pod/' . $filename);
-
-    //     // Check if the file exists
-    //     if (file_exists($filePath)) {
-    //         // Return the file as a download response
-    //         return response()->download($filePath, $filename);
-    //     } else {
-    //         abort(404, 'Image not found');
-    //     }
-    // }
 
     public function download($filename)
     {

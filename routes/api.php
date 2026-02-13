@@ -32,10 +32,10 @@ Route::get('/locations', [LocationsController::class, 'index']); //->middleware(
 Route::apiResource('bookings', BookingController::class)->middleware('auth:sanctum');
 
 // Dispatch Routes
-Route::post('/dispatch/{consignment_no}', [BookingController::class, 'dispatchBooking']); //->middleware('auth:sanctum');
+Route::post('/dispatch', [BookingController::class, 'dispatchBooking'])->middleware('auth:sanctum');
 
 // Receive Routes
-Route::post('/delivery/{consignment_no}', [BookingController::class, 'deliverBooking']); //->middleware('auth:sanctum');
+Route::post('/delivery/{consignment_no}', [BookingController::class, 'deliverBooking'])->middleware('auth:sanctum');
 
 // Change password
 Route::post('/change-password', [PasswordController::class, 'change_password'])->middleware('auth:sanctum');

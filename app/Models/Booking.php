@@ -17,6 +17,11 @@ class Booking extends Model
     const CREATED_AT = 'created_on';
     const UPDATED_AT = 'updated_on';
 
+    // Status of consignment
+    const STATUS_BOOKED = 1;
+    const STATUS_DISPATCHED = 2;
+    const STATUS_DELIVERED = 3;
+
     /**
      * The table associated with the model.
      *
@@ -78,5 +83,37 @@ class Booking extends Model
         })->when($filters['bookingType'] ?? null, function ($query, $bookingType) {
             $query->where('booking_status', $bookingType);
         });
+    }
+
+    /**
+     * Check if the delivery blocked
+     */
+    public function isBlocked(): bool
+    {
+        return in_array($this->booking_status, [
+            self::STATUS_BOOKED,
+            self::STATUS_DELIVERED
+        ]);
+    }
+
+    public function canDispatched(): bool
+    {
+        return $this->booking_status === self::STATUS_BOOKED;
+    }
+
+    public function isAlreadyProcessed(): bool
+    {
+        return in_array($this->booking_status, [
+            self::STATUS_DISPATCHED,
+            self::STATUS_DELIVERED
+        ]);
+    }
+
+    /**
+     * Scope a query to fetch booking status from m_booking_status.
+     */
+    public function scopeGetConsignmentStatus(Builder $query): void
+    {
+        $query->leftJoin('m_booking_status', 'm_booking_status.id', '=', 'm_booking.booking_status');
     }
 }

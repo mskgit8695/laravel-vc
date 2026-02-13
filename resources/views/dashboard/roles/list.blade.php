@@ -23,7 +23,8 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="#" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span>
+                                    Back</a>
                             </div>
                         </div>
                         <section>
