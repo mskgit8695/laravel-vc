@@ -24,8 +24,14 @@ class UserController extends Controller
 
     public function create()
     {
+        // Get user's data
+        $user = Auth::user();
         // Roles
-        $roles = Role::where('id', '!=', 1)->where('status', '=', '1')->get(['id', 'name']);
+        $roles = Role::where('status', 1)
+            ->when(!$user || $user->role !== '1', function ($query) {
+                $query->where('id', '!=', 1);
+            })
+            ->get(['id', 'name']);
 
         // Status List
         $status_list = get_status_list();

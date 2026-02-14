@@ -22,10 +22,6 @@
                                     </li>
                                 </ol>
                             </nav>
-                            <div class="back-btn">
-                                <a href="#" class="btn-link-orange" onclick="history.back()"><span>&#10140;</span>
-                                    Back</a>
-                            </div>
                         </div>
                         <section>
                             <div class="card border-btm">
