@@ -9,33 +9,56 @@ use App\Http\Controllers\Api\LocationsController;
 use App\Http\Controllers\AuthController as PasswordController;
 
 // Login and Registration Routes
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // Password Reset and Email Verification Routes
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+// Verification
 Route::post('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
-Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])->name('verification.resend'); //->middleware('auth:sanctum')
 
-// Get Client and Location
-Route::get('/clients', [ClientController::class, 'index']); //->middleware('auth:sanctum');
-Route::get('/locations', [LocationsController::class, 'index']); //->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    // Fetch a user
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-// Booking Routes
-Route::apiResource('bookings', BookingController::class)->middleware('auth:sanctum');
+    // Change password
+    Route::post('/change-password', [PasswordController::class, 'change_password']);
 
-// Dispatch Routes
-Route::post('/dispatch', [BookingController::class, 'dispatchBooking'])->middleware('auth:sanctum');
+    // Resend verification link
+    Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])->name('verification.resend');
 
-// Receive Routes
-Route::post('/delivery/{consignment_no}', [BookingController::class, 'deliverBooking'])->middleware('auth:sanctum');
+    // Get Client and Location
+    Route::get('/clients', [ClientController::class, 'index']);
+    Route::get('/locations', [LocationsController::class, 'index']);
 
-// Change password
-Route::post('/change-password', [PasswordController::class, 'change_password'])->middleware('auth:sanctum');
+    // Booking Routes
+    Route::apiResource('bookings', BookingController::class);
+    // Final Booking
+    Route::post('/finalbooking', [BookingController::class, 'finalBooking']);
+    // Get final Booking Routes
+    Route::get('/getfinalbooking', [BookingController::class, 'getFinalBooking']);
+
+    // Dispatch Routes
+    Route::post('/dispatch', [BookingController::class, 'dispatchDraftBooking']);
+    Route::get('/getdraftdispatch', [BookingController::class, 'getDraftDispatch']);
+    Route::post('/dispatchfinal', [BookingController::class, 'dispatchFinalBooking']);
+    Route::get('/getfinaldispatch', [BookingController::class, 'getFinalDispatch']);
+
+    // Receive Routes
+    Route::post('/delivery/{consignment_no}', [BookingController::class, 'deliverBooking']);
+    Route::get('/getdelivery/{consignment_no}', [BookingController::class, 'deliverBookingDetails']);
+    Route::get('/getphoto/{photo_no}', [BookingController::class, 'getPhoto']);
+
+    // Draft booking, dispatch by client id
+    Route::get('getdraftbookingbyclient/{clientId}', [BookingController::class, 'getDraftBookingByClientId']);
+    Route::get('getdraftdispatchbyclient/{clientId}', [BookingController::class, 'getDraftDispatchByClientId']);
+
+    // Pending bookings to dispatch
+    Route::get('getpendingdispatch', [BookingController::class, 'getPendingDispatch']);
+});

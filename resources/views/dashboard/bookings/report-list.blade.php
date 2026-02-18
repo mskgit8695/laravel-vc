@@ -97,7 +97,9 @@
                                                             <th>Client</th>
                                                             <th>Location</th>
                                                             <th>Quantity</th>
-                                                            <th>Weights</th>
+                                                            <th>Weight</th>
+                                                            <th>Name</th>
+															<th>Address</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -111,7 +113,9 @@
                                                                 <td>{{ $b->client }}</td>
                                                                 <td>{{ $b->location }}</td>
                                                                 <td>{{ $b->quantity }}</td>
-                                                                <td>{{ $b->quantity_type }}</td>
+                                                                <td>{{ $b->weight }} {{ $b->quantity_type }}</td>
+                                                                <td>{{ $b->party_name }}</td>
+                                                                <td>{{ $b->city_address }}</td>
                                                                 <td>{{ get_booking_status($b->booking_status) }}</td>
                                                                 <td>
                                                                     <a href="{{ route('bookings.show', $b->id) }}">View</a>
@@ -119,7 +123,7 @@
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
-                                                    <tfoot>
+                                                    <!--<tfoot>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Consignment No.</th>
@@ -131,7 +135,7 @@
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
-                                                    </tfoot>
+                                                    </tfoot>-->
                                                 </table>
                                             </div>
                                         </div>

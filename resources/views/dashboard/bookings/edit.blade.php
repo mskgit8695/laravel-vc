@@ -25,6 +25,9 @@
                                     </li>
                                 </ol>
                             </nav>
+                            <div class="back-btn">
+                                <a href="/dashboard/bookings" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                            </div>
                         </div>
                         <form action="{{ route('bookings.update', $booking->id) }}" method="POST" autocomplete="off">
                             @csrf
@@ -101,6 +104,9 @@
                             </section>
                             <div class="action-btn">
                                 <ul>
+                                    <li>
+                                        <a class="btn btn-lg btn-orange-outline" href="/dashboard/bookings">Back</a>
+                                    </li>
                                     <li>
                                         <button class="btn btn-lg btn-orange-outline" type="submit">
                                             Update Booking

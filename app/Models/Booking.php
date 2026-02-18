@@ -18,9 +18,11 @@ class Booking extends Model
     const UPDATED_AT = 'updated_on';
 
     // Status of consignment
-    const STATUS_BOOKED = 1;
-    const STATUS_DISPATCHED = 2;
-    const STATUS_DELIVERED = 3;
+    const BOOKING = 1;
+    const DISPATCHED = 2;
+    const DELIVERED = 3;
+    const DRAFT_BOOKING = 4;
+    const DRAFT_DISPATCHED = 5;
 
     /**
      * The table associated with the model.
@@ -39,8 +41,10 @@ class Booking extends Model
         'consignment_no',
         'client_id',
         'location_id',
+        'party_name',
         'city_address',
         'quantity',
+        'weight',
         'quantity_type',
         'status',
         'booking_status',
@@ -55,13 +59,18 @@ class Booking extends Model
     {
         $query->addSelect([
             'm_booking.id',
-            'client' => Client::select('name')->whereColumn('m_client.id', 'm_booking.client_id')->limit(1),
-            'location' => Location::select('name')->whereColumn('m_location.id', 'm_booking.location_id')->limit(1),
+            'client_id',
+            'location_id',
             'book_date',
             'booking_status',
             'consignment_no',
+            'party_name',
+            'city_address',
             'quantity',
-            'quantity_type'
+            'weight',
+            'quantity_type',
+            'client_name' => Client::select('name')->whereColumn('m_client.id', 'm_booking.client_id')->limit(1),
+            'location_name' => Location::select('name')->whereColumn('m_location.id', 'm_booking.location_id')->limit(1),
         ]);
     }
 
@@ -83,37 +92,5 @@ class Booking extends Model
         })->when($filters['bookingType'] ?? null, function ($query, $bookingType) {
             $query->where('booking_status', $bookingType);
         });
-    }
-
-    /**
-     * Check if the delivery blocked
-     */
-    public function isBlocked(): bool
-    {
-        return in_array($this->booking_status, [
-            self::STATUS_BOOKED,
-            self::STATUS_DELIVERED
-        ]);
-    }
-
-    public function canDispatched(): bool
-    {
-        return $this->booking_status === self::STATUS_BOOKED;
-    }
-
-    public function isAlreadyProcessed(): bool
-    {
-        return in_array($this->booking_status, [
-            self::STATUS_DISPATCHED,
-            self::STATUS_DELIVERED
-        ]);
-    }
-
-    /**
-     * Scope a query to fetch booking status from m_booking_status.
-     */
-    public function scopeGetConsignmentStatus(Builder $query): void
-    {
-        $query->leftJoin('m_booking_status', 'm_booking_status.id', '=', 'm_booking.booking_status');
     }
 }

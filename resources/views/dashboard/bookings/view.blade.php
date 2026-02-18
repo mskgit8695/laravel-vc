@@ -23,8 +23,7 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span>
-                                    Back</a>
+                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span> Back</a>
                             </div>
                         </div>
                         <div class="custom-accordion">
@@ -73,7 +72,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Weight</strong></td>
-                                                                    <td>{{ $booking->quantity_type }}</td>
+                                                                    <td>{{ $booking->weight }}{{ $booking->quantity_type }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Status</strong></td>
@@ -115,8 +114,8 @@
                                 <div class="action-btn">
                                     <ul>
                                         <li>
-                                            <a href="#" class="btn btn-lg btn-orange-outline"
-                                                onclick="history.back()">Back</a>
+                                            <a href="#" onclick="history.back()"
+                                                class="btn btn-lg btn-orange-outline">Back</a>
                                         </li>
                                     </ul>
                                 </div>

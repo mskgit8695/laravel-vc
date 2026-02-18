@@ -37,6 +37,8 @@
                 <th>Location</th>
                 <th>Quantity</th>
                 <th>Weight</th>
+                <th>Name</th>
+                <th>Address</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -47,8 +49,10 @@
                     <td>{{ $item->book_date_format }}</td>
                     <td>{{ $item->client }}</td>
                     <td>{{ $item->location }}</td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>{{ $item->quantity_type }}</td>
+                    <td>{{ $item->quantity }} </td>
+                    <td>{{ $item->weight }} {{ $item->quantity_type }}</td>
+                    <td>{{ $item->party_name }}</td>
+                    <td>{{ $item->city_address }}</td>
                     <td>{{ get_booking_status($item->booking_status) }}</td>
                 </tr>
             @endforeach

@@ -24,6 +24,9 @@
                                     </li>
                                 </ol>
                             </nav>
+                            <div class="back-btn">
+                                <a href="/dashboard/users" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                            </div>
                         </div>
                         <form action="{{ route('dashboard.users.store') }}" method="POST" autocomplete="off">
                             @csrf
@@ -125,7 +128,8 @@
                                                         <input type="password"
                                                             class="form-control @error('password_confirmation') is-invalid @enderror"
                                                             id="password_confirmation" name="password_confirmation"
-                                                            placeholder="Enter confirm password" required minlength="8" />
+                                                            placeholder="Enter confirm password" required
+                                                            minlength="8" />
                                                         <label for="password_confirmation" class="form-label">Confirm
                                                             Password</label>
                                                         @error('password_confirmation')
@@ -182,6 +186,9 @@
                             </section>
                             <div class="action-btn">
                                 <ul>
+                                    <li>
+                                        <a class="btn btn-lg btn-orange-outline" href="/dashboard/users">Back</a>
+                                    </li>
                                     <li>
                                         <button class="btn btn-lg btn-orange-outline" type="submit">
                                             Add User

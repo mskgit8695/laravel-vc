@@ -49,11 +49,13 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Consignment No.</th>
-                                                    <th>Booking Date.</th>
+                                                    <th>Booking Date</th>
                                                     <th>Client</th>
                                                     <th>Location</th>
                                                     <th>Quantity</th>
-                                                    <th>Weights</th>
+                                                    <th>Weight</th>
+                                                    <th>Name</th>
+                                                    <th>Address</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -66,8 +68,10 @@
                                                         <td>{{ $b->book_date_format }}</td>
                                                         <td>{{ $b->client }}</td>
                                                         <td>{{ $b->location }}</td>
-                                                        <td>{{ $b->quantity }}</td>
-                                                        <td>{{ $b->quantity_type }}</td>
+                                                        <td>{{ $b->quantity }} </td>
+                                                        <td>{{ $b->weight }} {{ $b->quantity_type }}</td>
+                                                        <td>{{ $b->party_name }}</td>
+                                                        <td>{{ $b->city_address }}</td>
                                                         <td>{{ get_booking_status($b->booking_status) }}</td>
                                                         <td>
                                                             <a href="{{ route('bookings.edit', $b->id) }}">Edit</a>

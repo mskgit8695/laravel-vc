@@ -140,11 +140,9 @@ class Authenticate extends Controller
 
     public function forgotPassword(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email:rfc,dns|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|exists:users']);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
             ? response()->json(['message' => trans($status)])
@@ -155,7 +153,7 @@ class Authenticate extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email:rfc,dns|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|exists:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 

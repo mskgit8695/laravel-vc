@@ -25,6 +25,9 @@
                                     </li>
                                 </ol>
                             </nav>
+                            <div class="back-btn">
+                                <a href="/dashboard/locations" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                            </div>
                         </div>
                         <form action="{{ route('clients.store') }}" method="POST" autocomplete="off">
                             @csrf
@@ -107,6 +110,9 @@
                             </section>
                             <div class="action-btn">
                                 <ul>
+                                    <li>
+                                        <a class="btn btn-lg btn-orange-outline" href="#">Back</a>
+                                    </li>
                                     <li>
                                         <button class="btn btn-lg btn-orange-outline" type="submit">
                                             Add Client

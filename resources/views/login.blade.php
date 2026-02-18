@@ -16,7 +16,7 @@
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
                             <div class="logo-v"></div>
-                            <h5><b>Login to Verma Courier's Admin</b></h5>
+                            <h5><b>Administrator Login</b></h5>
                             <form action="{{ route('login') }}" class="form" method="POST" autocapitalize="off">
                                 @csrf
                                 <div class="custom-field @error('email') has-validation @enderror">
