@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Dashboard route
-    Route::get('/dashboard', fn() => view('dashboard.dashboard'))->name('dashboard');
+    Route::get('/dashboard', [BookingController::class, 'dashboard'])->name('dashboard');
 
     // User management routes
     Route::get('/dashboard/users', [UserController::class, 'index'])->name('dashboard.users');

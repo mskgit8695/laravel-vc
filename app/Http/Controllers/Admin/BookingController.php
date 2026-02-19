@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -193,5 +194,27 @@ class BookingController extends Controller
         } else {
             abort(404, 'Image not found');
         }
+    }
+
+    /**
+     * Prepare Dashboard for admin or stack holder
+     */
+    public function dashboard()
+    {
+        // Booking statatics
+        $booking_statatics = DB::table('m_booking')->select(DB::raw('count(id) as total_booking'))->addSelect([
+            DB::raw('sum(case when booking_status="1" then 1 else 0 end) as total_pending'),
+            DB::raw('sum(case when booking_status="2" then 1 else 0 end) as total_dispatch'),
+            DB::raw('sum(case when booking_status="3" then 1 else 0 end) as total_delivery')
+        ])->first();
+
+        // Bookings
+        $bookings = Booking::where('booking_status', Booking::BOOKING)->getBookings()->latest()->get();
+        // Dispatch
+        $dispatch = Booking::where('booking_status', Booking::DISPATCHED)->getBookings()->latest()->get();
+        // Delivery
+        $delivery = Booking::where('booking_status', Booking::DELIVERED)->getBookings()->latest()->get();
+        // Render
+        return view('dashboard.dashboard', ['statatics' => $booking_statatics, 'bookings' => $bookings, 'dispatch' => $dispatch, 'delivery' => $delivery]);
     }
 }
