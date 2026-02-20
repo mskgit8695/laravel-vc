@@ -45,11 +45,29 @@
                 </li>
             @endif
             <li>
-                <a href="{{ route('bookings.index') }}" class="@if (str_contains(url()->current(), 'bookings')) active @endif">
+                <a href="{{ route('bookings.index') }}" class="@if (str_contains(url()->full(), 'bookings') && !str_contains(url()->full(), 'bookingType')) active @endif">
                     <i>
                         <img src="{{ asset('img/icons/dashbord/dash-04.png') }}" alt="bookings">
                     </i>
                     Booking Managment
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('bookings.index', ['bookingType' => '4']) }}"
+                    class="@if (str_contains(url()->full(), 'bookingType=4')) active @endif">
+                    <i>
+                        <img src="{{ asset('img/icons/dashbord/dash-04.png') }}" alt="draft booking">
+                    </i>
+                    Draft Booking
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('bookings.index', ['bookingType' => '5']) }}"
+                    class="@if (str_contains(url()->full(), 'bookingType=5')) active @endif">
+                    <i>
+                        <img src="{{ asset('img/icons/dashbord/dash-04.png') }}" alt="draft dispatch">
+                    </i>
+                    Draft Dispatch
                 </a>
             </li>
             <li>

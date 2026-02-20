@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,13 +26,24 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Fetch query string
+        $booking_type = $request->query('bookingType');
         // Fetch booking
-        $bookings = Booking::getBookings()->get();
+        $bookings = Booking::when($booking_type, function (Builder $query, int $booking_type) {
+            $query->where('booking_status', $booking_type);
+        })->getBookings()->get();
+
+        $title = 'Booking Management';
+        if ($booking_type && $booking_type == '4') {
+            $title = 'Draft Booking';
+        } else if ($booking_type && $booking_type === '5') {
+            $title = 'Draft Dispatch';
+        }
 
         // Render the user management view with users data
-        return view('dashboard.bookings.list', ['bookings' => $bookings, 'title' => 'Booking Management']);
+        return view('dashboard.bookings.list', ['bookings' => $bookings, 'title' => $title]);
     }
 
     /**
@@ -203,17 +215,17 @@ class BookingController extends Controller
     {
         // Booking statatics
         $booking_statatics = DB::table('m_booking')->select(DB::raw('count(id) as total_booking'))->addSelect([
-            DB::raw('sum(case when booking_status="1" then 1 else 0 end) as total_pending'),
-            DB::raw('sum(case when booking_status="2" then 1 else 0 end) as total_dispatch'),
-            DB::raw('sum(case when booking_status="3" then 1 else 0 end) as total_delivery')
-        ])->first();
+            DB::raw('sum(case when (booking_status="1" and date(updated_on) < curdate()) then 1 else 0 end) as total_pending'),
+            DB::raw('sum(case when (booking_status="2" and date(updated_on) = curdate()) then 1 else 0 end) as total_dispatch'),
+            DB::raw('sum(case when (booking_status="3" and date(updated_on) = curdate()) then 1 else 0 end) as total_delivery')
+        ])->where('booking_status', Booking::BOOKING)->whereDate('updated_on', today())->first();
 
         // Bookings
-        $bookings = Booking::where('booking_status', Booking::BOOKING)->getBookings()->latest()->get();
+        $bookings = Booking::where('booking_status', Booking::BOOKING)->where('book_date', today())->getBookings()->latest()->get();
         // Dispatch
-        $dispatch = Booking::where('booking_status', Booking::DISPATCHED)->getBookings()->latest()->get();
+        $dispatch = Booking::where('booking_status', Booking::DISPATCHED)->where('book_date', today())->getBookings()->latest()->get();
         // Delivery
-        $delivery = Booking::where('booking_status', Booking::DELIVERED)->getBookings()->latest()->get();
+        $delivery = Booking::where('booking_status', Booking::DELIVERED)->where('book_date', today())->getBookings()->latest()->get();
         // Render
         return view('dashboard.dashboard', ['statatics' => $booking_statatics, 'bookings' => $bookings, 'dispatch' => $dispatch, 'delivery' => $delivery]);
     }
