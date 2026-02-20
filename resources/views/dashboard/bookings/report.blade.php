@@ -47,8 +47,8 @@
                 <tr>
                     <td>{{ $item->consignment_no }}</td>
                     <td>{{ $item->book_date_format }}</td>
-                    <td>{{ $item->client }}</td>
-                    <td>{{ $item->location }}</td>
+                    <td>{{ $item->client_name }}</td>
+                    <td>{{ $item->location_name }}</td>
                     <td>{{ $item->quantity }} </td>
                     <td>{{ $item->weight }} {{ $item->quantity_type }}</td>
                     <td>{{ $item->party_name }}</td>

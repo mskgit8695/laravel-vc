@@ -702,4 +702,19 @@ class BookingController extends Controller
         // Return response
         return response()->json($pending_bookings);
     }
+
+    public function getFinalBookingByClientId(int $clientId)
+    {
+        // Check if the client is exists in system
+        $isClientExists = Client::where(['id' => $clientId, 'status' => 1])->first();
+        if (!$isClientExists) {
+            throw new \Exception('The client details not found in our system!');
+        }
+
+        // Fetch the final booking details by client id and booking status as a booking.
+        $final_booking = Booking::where(['client_id' => $clientId, 'booking_status' => Booking::BOOKING, 'created_by' => auth()->id()])->getBookings()->get();
+
+        // Return response
+        return response()->json($final_booking);
+    }
 }

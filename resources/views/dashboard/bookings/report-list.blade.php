@@ -99,7 +99,7 @@
                                                             <th>Quantity</th>
                                                             <th>Weight</th>
                                                             <th>Name</th>
-															<th>Address</th>
+                                                            <th>Address</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -110,8 +110,8 @@
                                                                 <td>{{ $i + 1 }}</td>
                                                                 <td>{{ $b->consignment_no }}</td>
                                                                 <td>{{ $b->book_date_format }}</td>
-                                                                <td>{{ $b->client }}</td>
-                                                                <td>{{ $b->location }}</td>
+                                                                <td>{{ $b->client_name }}</td>
+                                                                <td>{{ $b->location_name }}</td>
                                                                 <td>{{ $b->quantity }}</td>
                                                                 <td>{{ $b->weight }} {{ $b->quantity_type }}</td>
                                                                 <td>{{ $b->party_name }}</td>
@@ -124,18 +124,18 @@
                                                         @endforeach
                                                     </tbody>
                                                     <!--<tfoot>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Consignment No.</th>
-                                                            <th>Booking Date.</th>
-                                                            <th>Client</th>
-                                                            <th>Location</th>
-                                                            <th>Quantity</th>
-                                                            <th>Weights</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </tfoot>-->
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Consignment No.</th>
+                                                                            <th>Booking Date.</th>
+                                                                            <th>Client</th>
+                                                                            <th>Location</th>
+                                                                            <th>Quantity</th>
+                                                                            <th>Weights</th>
+                                                                            <th>Status</th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </tfoot>-->
                                                 </table>
                                             </div>
                                         </div>

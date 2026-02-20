@@ -56,9 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getphoto/{photo_no}', [BookingController::class, 'getPhoto']);
 
     // Draft booking, dispatch by client id
-    Route::get('getdraftbookingbyclient/{clientId}', [BookingController::class, 'getDraftBookingByClientId']);
-    Route::get('getdraftdispatchbyclient/{clientId}', [BookingController::class, 'getDraftDispatchByClientId']);
+    Route::get('/getdraftbookingbyclient/{clientId}', [BookingController::class, 'getDraftBookingByClientId']);
+    Route::get('/getdraftdispatchbyclient/{clientId}', [BookingController::class, 'getDraftDispatchByClientId']);
+    Route::get('/getfinalbookingbyclient/{clientId}', [BookingController::class, 'getFinalBookingByClientId']);
 
     // Pending bookings to dispatch
-    Route::get('getpendingdispatch', [BookingController::class, 'getPendingDispatch']);
+    Route::get('/getpendingdispatch', [BookingController::class, 'getPendingDispatch']);
 });

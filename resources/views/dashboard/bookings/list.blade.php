@@ -66,8 +66,8 @@
                                                         <td>{{ $i + 1 }}</td>
                                                         <td>{{ $b->consignment_no }}</td>
                                                         <td>{{ $b->book_date_format }}</td>
-                                                        <td>{{ $b->client }}</td>
-                                                        <td>{{ $b->location }}</td>
+                                                        <td>{{ $b->client_name }}</td>
+                                                        <td>{{ $b->location_name }}</td>
                                                         <td>{{ $b->quantity }} </td>
                                                         <td>{{ $b->weight }} {{ $b->quantity_type }}</td>
                                                         <td>{{ $b->party_name }}</td>

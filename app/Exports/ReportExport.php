@@ -20,8 +20,8 @@ class ReportExport implements FromCollection, WithHeadings
             return [
                 'Consignment No' => $item->consignment_no,
                 'Booking Date' => $item->book_date_format,
-                'Client' => $item->client,
-                'Location' => $item->location,
+                'Client' => $item->client_name,
+                'Location' => $item->location_name,
                 'Quantity' => $item->quantity,
                 'Weight' => $item->quantity_type,
                 'Status' => get_booking_status($item->booking_status)

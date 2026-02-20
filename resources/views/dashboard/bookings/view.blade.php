@@ -23,7 +23,8 @@
                                 </ol>
                             </nav>
                             <div class="back-btn">
-                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span> Back</a>
+                                <a href="#" onclick="history.back()" class="btn-link-orange"><span>&#10140;</span>
+                                    Back</a>
                             </div>
                         </div>
                         <div class="custom-accordion">
@@ -60,11 +61,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Client</strong></td>
-                                                                    <td>{{ $booking->client }}</td>
+                                                                    <td>{{ $booking->client_name }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Location</strong></td>
-                                                                    <td>{{ $booking->location }}</td>
+                                                                    <td>{{ $booking->location_name }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Quantity</strong></td>
@@ -72,7 +73,8 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Weight</strong></td>
-                                                                    <td>{{ $booking->weight }}{{ $booking->quantity_type }}</td>
+                                                                    <td>{{ $booking->weight }} {{ $booking->quantity_type }}
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><strong>Status</strong></td>
